@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Tag } from 'primereact/tag';
@@ -25,17 +26,27 @@ const ProductCard = ({ product, onAddToCart }) => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      setShowModal(true);
+    }
+  };
+
   return (
     <>
       <div 
         onClick={() => setShowModal(true)}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-label={`Ver detalles de ${name}`}
         className="bg-white rounded-[2.5rem] border border-gray-100 hover:border-cyan-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(8,112,184,0.08)] transition-all duration-500 p-6 flex flex-col h-full group cursor-pointer"
       >
         {/* Image Area */}
         <div className="w-full aspect-square mb-6 overflow-hidden rounded-[2rem] relative bg-gray-50 flex items-center justify-center border border-gray-50 shadow-inner">
           <img
             src={image || `https://picsum.photos/id/${id}/500/500`}
-            alt={name}
+            alt=""
             onError={handleImageError}
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
             loading="lazy"
@@ -85,23 +96,23 @@ const ProductCard = ({ product, onAddToCart }) => {
         dismissableMask
       >
         <div className="flex flex-col md:flex-row h-full">
-          {/* Modal Image */}
           <div className="w-full md:w-1/2 aspect-square md:aspect-auto bg-gray-50 relative overflow-hidden">
              <img
               src={image || `https://picsum.photos/id/${id}/800/800`}
               alt={name}
               onError={handleImageError}
               className="w-full h-full object-cover animate-fadein"
+              loading="lazy"
             />
             <button 
               onClick={() => setShowModal(false)}
               className="absolute top-6 left-6 w-12 h-12 bg-white/80 backdrop-blur-lg rounded-full flex items-center justify-center text-gray-800 shadow-lg hover:bg-black hover:text-white transition-all z-10"
+              aria-label="Cerrar modal"
             >
               <i className="pi pi-arrow-left text-sm"></i>
             </button>
           </div>
 
-          {/* Modal Body */}
           <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
             <div className="mb-6">
                <Tag 
@@ -151,6 +162,19 @@ const ProductCard = ({ product, onAddToCart }) => {
       </Dialog>
     </>
   );
+};
+
+ProductCard.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    price: PropTypes.number.isRequired,
+    categoryName: PropTypes.string,
+    image: PropTypes.string,
+    category: PropTypes.object
+  }).isRequired,
+  onAddToCart: PropTypes.func.isRequired
 };
 
 export default ProductCard;

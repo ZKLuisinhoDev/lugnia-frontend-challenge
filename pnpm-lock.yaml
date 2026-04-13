@@ -17,6 +17,9 @@ importers:
       primereact:
         specifier: ^10.9.7
         version: 10.9.7(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      prop-types:
+        specifier: ^15.8.1
+        version: 15.8.1
       react:
         specifier: ^19.2.4
         version: 19.2.5

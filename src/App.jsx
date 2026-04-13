@@ -1,52 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy, useCallback, useRef } from 'react';
 import { CartProvider, useCart } from './context/CartContext';
 import ProductList from './components/products/ProductList';
 import FilterBar from './components/filters/FilterBar';
 import CartIcon from './components/cart/CartIcon';
-import CartDrawer from './components/cart/CartDrawer';
 import Pagination from './components/ui/Pagination';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 import { useProducts } from './hooks/useProducts';
 import { useCategories } from './hooks/useCategories';
 import { Toast } from 'primereact/toast';
-import { useRef } from 'react';
+import { API_CONFIG } from './constants/api';
 
-const ITEMS_PER_PAGE = 12;
+// Loading CartDrawer lazily for better initial performance
+const CartDrawer = lazy(() => import('./components/cart/CartDrawer'));
 
+/**
+ * Main shop content component to manage state and layout.
+ */
 function ShopContent() {
-  const [page, setPage] = useState(1);
-  const { products, loading, error, totalCount, filters, setFilter } = useProducts(page, ITEMS_PER_PAGE);
+  const [page, setPage] = useState(API_CONFIG.DEFAULT_PAGE);
+  const { products, loading, error, totalCount, filters, setFilter } = useProducts(page, API_CONFIG.DEFAULT_LIMIT);
   const { categories } = useCategories();
   const { cart, addToCart, removeFromCart, updateQuantity, clearCart, getCartTotal, getCartItemsCount } = useCart();
   const [cartVisible, setCartVisible] = useState(false);
   const toast = useRef(null);
 
-  const handleAddToCart = (product) => {
+  // Memoized handlers to prevent unnecessary re-renders in children
+  const handleAddToCart = useCallback((product) => {
     addToCart(product);
-    toast.current.show({
+    toast.current?.show({
       severity: 'success',
-      summary: 'Agregado al carrito',
+      summary: 'Agregado',
       detail: product.name,
       life: 2000
     });
-  };
+  }, [addToCart]);
 
-  const handlePageChange = (event) => {
+  const handlePageChange = useCallback((event) => {
     setPage(event.page + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
+
+  const handleSearch = useCallback((value) => {
+    setFilter('search', value);
+    setPage(1);
+  }, [setFilter]);
+
+  const handleCategoryFilter = useCallback((value) => {
+    setFilter('category', value);
+    setPage(1);
+  }, [setFilter]);
+
+  const handlePriceFilter = useCallback((min, max) => {
+    setFilter('priceMin', min);
+    setFilter('priceMax', max);
+    setPage(1);
+  }, [setFilter]);
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
+    <div className="min-h-screen bg-gray-50/50 font-sans">
       <Toast ref={toast} position="top-right" />
       
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight">
+      {/* Header Section */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40 shadow-sm px-4 md:px-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
+          <div className="flex flex-col">
+            <h1 className="text-4xl font-black text-gray-900 tracking-tighter">
               Sumaq<span className="text-cyan-600">.</span>
             </h1>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-1 ml-0.5">
               Origen y calidad
             </p>
           </div>
@@ -58,80 +79,80 @@ function ShopContent() {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Filters */}
-        <section className="mb-8">
+      {/* Main Content Area */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+        {/* Filters and Search Container */}
+        <section className="mb-2">
           <FilterBar
             categories={categories}
             searchValue={filters.search}
-            onSearch={(value) => {
-              setFilter('search', value);
-              setPage(1);
-            }}
+            onSearch={handleSearch}
             categoryValue={filters.category}
-            onCategoryFilter={(value) => {
-              setFilter('category', value);
-              setPage(1);
-            }}
-            onPriceFilter={(min, max) => {
-              setFilter('priceMin', min);
-              setFilter('priceMax', max);
-              setPage(1);
-            }}
+            onCategoryFilter={handleCategoryFilter}
+            onPriceFilter={handlePriceFilter}
           />
         </section>
 
-        {/* Products count */}
-        {!loading && (
-          <div className="mb-6 flex items-center justify-between">
-            <p className="text-gray-600">
-              Mostrando <span className="font-bold text-gray-900">{products.length}</span> de{' '}
-              <span className="font-bold text-gray-900">{totalCount}</span> productos
-              {filters.search || filters.category || filters.priceMin > 0 || filters.priceMax < Infinity ? ' (filtrados)' : ''}
-            </p>
+        {/* Results Metadata */}
+        {!loading && !error && (
+          <div className="mb-8 flex items-center justify-between px-2">
+            <h2 className="text-gray-500 font-bold text-sm uppercase tracking-tight">
+              Colección completa <span className="text-gray-300 mx-2">/</span> 
+              <span className="text-gray-900 font-black">{totalCount} productos encontrados</span>
+            </h2>
           </div>
         )}
 
-        {/* Product List */}
-        <ProductList
-          products={products}
-          loading={loading}
-          error={error}
-          onAddToCart={handleAddToCart}
-        />
-
-        {/* Pagination */}
-        {!loading && totalCount > ITEMS_PER_PAGE && (
-          <Pagination
-            totalRecords={totalCount}
-            rowsPerPage={ITEMS_PER_PAGE}
-            onPageChange={handlePageChange}
-            first={(page - 1) * ITEMS_PER_PAGE}
+        {/* Product Grid System */}
+        <div className="min-h-[400px]">
+          <ProductList
+            products={products}
+            loading={loading}
+            error={error}
+            onAddToCart={handleAddToCart}
           />
+        </div>
+
+        {/* Pagination Controls */}
+        {!loading && !error && totalCount > API_CONFIG.DEFAULT_LIMIT && (
+          <div className="mt-20">
+            <Pagination
+              totalRecords={totalCount}
+              rowsPerPage={API_CONFIG.DEFAULT_LIMIT}
+              onPageChange={handlePageChange}
+              first={(page - 1) * API_CONFIG.DEFAULT_LIMIT}
+            />
+          </div>
         )}
       </main>
 
-      {/* Cart Drawer */}
-      <CartDrawer
-        visible={cartVisible}
-        onHide={() => setCartVisible(false)}
-        cart={cart}
-        onUpdateQuantity={updateQuantity}
-        onRemove={removeFromCart}
-        onClearCart={clearCart}
-        getCartTotal={getCartTotal}
-        getCartItemsCount={getCartItemsCount}
-      />
+      {/* Lazy Loaded Cart Overlay */}
+      <Suspense fallback={null}>
+        <CartDrawer
+          visible={cartVisible}
+          onHide={() => setCartVisible(false)}
+          cart={cart}
+          onUpdateQuantity={updateQuantity}
+          onRemove={removeFromCart}
+          onClearCart={clearCart}
+          getCartTotal={getCartTotal}
+          getCartItemsCount={getCartItemsCount}
+        />
+      </Suspense>
     </div>
   );
 }
 
+/**
+ * Root App component with global providers and ErrorBoundary.
+ */
 function App() {
   return (
-    <CartProvider>
-      <ShopContent />
-    </CartProvider>
+    <ErrorBoundary>
+      <CartProvider>
+        <ShopContent />
+      </CartProvider>
+    </ErrorBoundary>
   );
 }
 

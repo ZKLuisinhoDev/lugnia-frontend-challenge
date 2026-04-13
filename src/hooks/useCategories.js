@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { getCategories } from '../services/api';
+import { fetchCategories } from '../services/api';
 
+/**
+ * Custom hook for fetching and managing product categories.
+ */
 export const useCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,18 +12,16 @@ export const useCategories = () => {
   useEffect(() => {
     let isMounted = true;
 
-    const fetchCategories = async () => {
+    const loadCategories = async () => {
       setLoading(true);
-      setError(null);
-      
       try {
-        const data = await getCategories();
+        const data = await fetchCategories();
         if (isMounted) {
-          setCategories(data);
+          setCategories(data || []);
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message || 'Ocurrió un error al cargar las categorías');
+          setError(err.message || 'Error al cargar categorías');
         }
       } finally {
         if (isMounted) {
@@ -29,7 +30,7 @@ export const useCategories = () => {
       }
     };
 
-    fetchCategories();
+    loadCategories();
 
     return () => {
       isMounted = false;

@@ -1,51 +1,37 @@
 import axios from 'axios';
+import { API_BASE_URL, ENDPOINTS } from '../constants/api';
 
-const API_URL = 'https://api.fake-rest.refine.dev';
+const api = axios.create({
+  baseURL: API_BASE_URL,
+});
 
-export const getProducts = async (page = 1, limit = 10) => {
+/**
+ * Fetches products with pagination and filter parameters
+ */
+export const fetchProducts = async (params = {}) => {
   try {
-    const _start = (page - 1) * limit;
-    const _end = page * limit;
-
-    // axios handles query parameters automatically with the 'params' config
-    const response = await axios.get(`${API_URL}/products`, {
-      params: {
-        _start,
-        _end
-      }
-    });
-
+    const response = await api.get(ENDPOINTS.PRODUCTS, { params });
     return {
       data: response.data,
-      totalCount: parseInt(response.headers['x-total-count'] || '0', 10)
+      total: parseInt(response.headers['x-total-count'] || '0', 10),
     };
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error('API Error (fetchProducts):', error);
     throw error;
   }
 };
 
-export const getCategories = async () => {
+/**
+ * Fetches all available categories
+ */
+export const fetchCategories = async () => {
   try {
-    const response = await axios.get(`${API_URL}/categories`);
+    const response = await api.get(ENDPOINTS.CATEGORIES);
     return response.data;
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error('API Error (fetchCategories):', error);
     throw error;
   }
 };
 
-// Get all products (for client-side filtering)
-export const getAllProducts = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/products`);
-    
-    return {
-      data: response.data,
-      totalCount: parseInt(response.headers['x-total-count'] || '0', 10)
-    };
-  } catch (error) {
-    console.error('Error fetching all products:', error);
-    throw error;
-  }
-};
+export default api;
