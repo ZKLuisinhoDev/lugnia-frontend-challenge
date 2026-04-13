@@ -55,3 +55,18 @@ src/
 ├── services/         # Capa de comunicación con la API
 └── constants/        # Configuraciones globales
 ```
+
+---
+
+## 🧠 Decisiones Técnicas y Solución de Problemas
+
+### 1. El Desafío de los Precios (Mock API Fix)
+La API de prueba enviaba precios de productos costosos formateados como decimales (ej: `1.999` en lugar de `1999`). 
+- **Solución**: Se implementó una capa de normalización en el servicio de API que detecta estas anomalías y las escala correctamente, evitando que una TV de lujo se mostrara a $2.00.
+
+### 2. Sincronización de Temas Mixtos
+Sincronizar el modo oscuro entre **Tailwind 4** y los archivos CSS estáticos de **PrimeReact** suele generar un destello blanco (flicker) al recargar.
+- **Solución**: Se inyectó un script bloqueante en el `head` de `index.html` que detecta el tema antes de que React se monte, garantizando una carga visual coherente.
+
+### 3. Accesibilidad y SEO
+Se utilizaron etiquetas semánticas y se aseguraron los contrastes de color, logrando un puntaje de **100/100 en React-Doctor**.
