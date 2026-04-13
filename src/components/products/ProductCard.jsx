@@ -136,6 +136,12 @@ const ProductCard = ({ product, onAddToCart }) => {
               </div>
               
               <div className="grid grid-cols-2 gap-4">
+                {product.material && (
+                  <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
+                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Material</p>
+                    <p className="text-xs font-bold text-gray-700 dark:text-gray-300 capitalize">{product.material}</p>
+                  </div>
+                )}
                 <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Garantía</p>
                    <p className="text-xs font-bold text-gray-700 dark:text-gray-300">12 Meses</p>
@@ -143,6 +149,10 @@ const ProductCard = ({ product, onAddToCart }) => {
                 <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Envío</p>
                    <p className="text-xs font-bold text-gray-700 dark:text-gray-300">Gratis hoy</p>
+                </div>
+                <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
+                   <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Origen</p>
+                   <p className="text-xs font-bold text-gray-700 dark:text-gray-300">Pasto, Col</p>
                 </div>
               </div>
             </div>
