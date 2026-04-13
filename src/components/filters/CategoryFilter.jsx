@@ -26,8 +26,23 @@ const CategoryFilter = ({ categories = EMPTY_OPTIONS, onFilter, selectedValue })
         options={options} 
         onChange={(e) => onFilter(e.value)} 
         placeholder="Seleccionar categoría" 
-        className="w-full border-gray-100 dark:border-slate-800 rounded-2xl focus:shadow-none border h-[58px] items-center bg-gray-50/50 dark:bg-slate-800/50 dark:text-white"
+        className="w-full border-gray-100 dark:border-slate-800 rounded-2xl focus:shadow-none border h-[58px] items-center bg-gray-50/50 dark:bg-slate-800/50 dark:text-white transition-all hover:border-cyan-500"
         showClear
+        pt={{
+          root: { className: 'overflow-hidden' },
+          panel: { className: 'bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl shadow-2xl mt-2 overflow-hidden' },
+          list: { className: 'py-2' },
+          item: ({ context }) => ({
+            className: `px-6 py-3 text-sm font-bold transition-all ${
+              context.selected 
+                ? 'bg-cyan-50 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400' 
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:pl-8'
+            }`
+          }),
+          header: { className: 'p-3 border-b border-gray-50 dark:border-slate-800' },
+          filterContainer: { className: 'flex items-center' },
+          filterInput: { className: 'py-2 px-3 border-none bg-gray-50 dark:bg-slate-800 rounded-xl text-xs' }
+        }}
       />
     </div>
   );

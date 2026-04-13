@@ -2,7 +2,7 @@ import React, { useState, Suspense, lazy, useCallback, useRef } from 'react';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { CartProvider, useCart } from './context/CartContext';
-import { useTheme } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import ProductList from './components/products/ProductList';
 import FilterBar from './components/filters/FilterBar';
 import CartIcon from './components/cart/CartIcon';
@@ -23,11 +23,11 @@ function ShopContent() {
   const { products, loading, error, totalCount, filters, setFilter } = useProducts(page, API_CONFIG.DEFAULT_LIMIT);
   const { categories } = useCategories();
   const { cart, addToCart, removeFromCart, updateQuantity, clearCart, getCartTotal, getCartItemsCount } = useCart();
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme, isSticky, toggleSticky } = useTheme();
   const [cartVisible, setCartVisible] = useState(false);
   const toast = useRef(null);
 
-  // Memoized handlers to prevent unnecessary re-renders in children
+  // Memoized handlers
   const handleAddToCart = useCallback((product) => {
     addToCart(product);
     toast.current?.show({
@@ -63,55 +63,68 @@ function ShopContent() {
     <div className="min-h-screen bg-gray-50/50 dark:bg-slate-950 transition-colors duration-500 font-sans">
       <Toast ref={toast} position="top-right" />
       
-      {/* Header Section */}
-      <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 sticky top-0 z-40 shadow-sm px-4 md:px-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-          <div className="flex flex-col">
-            <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter">
-              Sumaq<span className="text-cyan-600">.</span>
-            </h1>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-1 ml-0.5">
-              Origen y calidad
-            </p>
+      {/* Dynamic Navigation & Filters Bar */}
+      <div className={`${isSticky ? 'sticky top-0 z-40' : 'relative z-40'}`}>
+        <header className="bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-sm transition-all duration-300">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div className="flex flex-col">
+              <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
+                Sumaq<span className="text-cyan-600">.</span>
+              </h1>
+              <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.3em] mt-1 ml-0.5">
+                Origen y calidad
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-2 md:gap-4">
+              <Button 
+                icon="pi pi-thumbtack" 
+                onClick={toggleSticky} 
+                rounded 
+                text 
+                className={`w-9 h-9 flex items-center justify-center transition-all ${isSticky ? 'text-cyan-600 bg-cyan-50 dark:bg-cyan-900/20 rotate-45' : 'text-gray-400 dark:text-gray-600'}`}
+                aria-label="Alternar encabezado fijo"
+              />
+              <Button 
+                icon={isDark ? "pi pi-sun" : "pi pi-moon"} 
+                onClick={toggleTheme} 
+                rounded 
+                text 
+                className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 p-0 w-9 h-9 flex items-center justify-center transition-all"
+                aria-label="Alternar modo oscuro"
+              />
+              <CartIcon 
+                itemsCount={getCartItemsCount()} 
+                onClick={() => setCartVisible(true)} 
+              />
+            </div>
           </div>
-          
-          <div className="flex items-center gap-4">
-            <Button 
-              icon={isDark ? "pi pi-sun" : "pi pi-moon"} 
-              onClick={toggleTheme} 
-              rounded 
-              text 
-              className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 p-0 w-10 h-10 flex items-center justify-center transition-all"
-              aria-label="Alternar modo oscuro"
-            />
-            <CartIcon 
-              itemsCount={getCartItemsCount()} 
-              onClick={() => setCartVisible(true)} 
+        </header>
+
+        {/* Filters integrated into the sticky area */}
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-100 dark:border-slate-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <FilterBar
+              categories={categories}
+              searchValue={filters.search}
+              onSearch={handleSearch}
+              categoryValue={filters.category}
+              onCategoryFilter={handleCategoryFilter}
+              onPriceFilter={handlePriceFilter}
+              isIntegrated
             />
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
-        {/* Filters and Search Container */}
-        <section className="mb-2">
-          <FilterBar
-            categories={categories}
-            searchValue={filters.search}
-            onSearch={handleSearch}
-            categoryValue={filters.category}
-            onCategoryFilter={handleCategoryFilter}
-            onPriceFilter={handlePriceFilter}
-          />
-        </section>
-
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Results Metadata */}
         {!loading && !error && (
           <div className="mb-8 flex items-center justify-between px-2">
             <h2 className="text-gray-500 dark:text-gray-400 font-bold text-sm uppercase tracking-tight">
               Colección completa <span className="text-gray-300 dark:text-gray-700 mx-2">/</span> 
-              <span className="text-gray-900 dark:text-white font-black">{totalCount} productos encontrados</span>
+              <span className="text-gray-900 dark:text-white font-black">{totalCount} productos</span>
             </h2>
           </div>
         )}
