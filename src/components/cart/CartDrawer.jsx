@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
 import CartItem from './CartItem';
@@ -85,10 +86,10 @@ const CartDrawer = ({ visible, onHide, cart, onUpdateQuantity, onRemove, onClear
             </div>
           ) : (
             <div className="space-y-4">
-              {cart.map((item) => (
+              {cart.map((entry) => (
                 <CartItem
-                  key={item.id}
-                  item={item}
+                  key={entry.id}
+                  cartProduct={entry}
                   onUpdateQuantity={onUpdateQuantity}
                   onRemove={onRemove}
                 />
@@ -127,6 +128,17 @@ const CartDrawer = ({ visible, onHide, cart, onUpdateQuantity, onRemove, onClear
       </div>
     </Sidebar>
   );
+};
+
+CartDrawer.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
+  cart: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onUpdateQuantity: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onClearCart: PropTypes.func.isRequired,
+  getCartTotal: PropTypes.func.isRequired,
+  getCartItemsCount: PropTypes.func.isRequired
 };
 
 export default CartDrawer;

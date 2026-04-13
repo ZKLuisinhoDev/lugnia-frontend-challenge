@@ -1,13 +1,15 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { fetchProducts, fetchCategories } from '../services/api';
+import { fetchProducts } from '../services/api';
 
 /**
- * Custom hook for managing products, including fetching, filtering, and pagination.
+ * Custom hook for managing items in the shop. 
+ * Handles client-side filtering and pagination.
  */
-export const useProducts = (page = 1, limit = 12) => {
+export const useProducts = (currentPage = 1, pageSize = 12) => {
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
   const [filters, setFilters] = useState({
     search: '',
     category: '',
@@ -15,39 +17,23 @@ export const useProducts = (page = 1, limit = 12) => {
     priceMax: Infinity
   });
 
-  // Fetch initial data
   useEffect(() => {
     let isMounted = true;
 
-    const loadInitialData = async () => {
+    const loadData = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        // We fetch all products and categories for client-side filtering/pagination
-        // in a real app, filtering should be done server-side if data is large.
-        const [productsRes, categoriesRes] = await Promise.all([
-          fetchProducts({ _start: 0, _end: 1000 }), // Fetching a larger batch for client-side demo
-          fetchCategories()
-        ]);
-
+        // Fetch a large batch for client-side filtering demo
+        const { products } = await fetchProducts({ _start: 0, _end: 200 });
+        
         if (isMounted) {
-          const categoryMap = (categoriesRes || []).reduce((acc, cat) => {
-            acc[cat.id] = cat.title;
-            return acc;
-          }, {});
-
-          const enrichedProducts = (productsRes.data || []).map(product => ({
-            ...product,
-            categoryName: categoryMap[product.category?.id] || 'Otras',
-            image: product.image?.url || `https://picsum.photos/id/${product.id}/500/500`
-          }));
-
-          setAllProducts(enrichedProducts);
+          setAllProducts(products);
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message || 'Error al cargar los productos');
+          setError(err.message || 'Error al conectar con el catálogo Sumaq');
         }
       } finally {
         if (isMounted) {
@@ -56,59 +42,47 @@ export const useProducts = (page = 1, limit = 12) => {
       }
     };
 
-    loadInitialData();
+    loadData();
 
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, []);
 
-  // Compute filtered products directly during render (Solves react-doctor error)
+  /**
+   * Filter and search logic
+   */
   const filteredProducts = useMemo(() => {
     if (!allProducts.length) return [];
 
-    let result = [...allProducts];
+    return allProducts.filter(product => {
+      const matchesSearch = !filters.search || 
+        product.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        product.description?.toLowerCase().includes(filters.search.toLowerCase());
 
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase();
-      result = result.filter(p => 
-        p.name?.toLowerCase().includes(searchTerm) || 
-        p.description?.toLowerCase().includes(searchTerm)
-      );
-    }
+      const matchesCategory = !filters.category || product.category?.id === filters.category;
+      
+      const matchesPrice = product.price >= filters.priceMin && product.price <= filters.priceMax;
 
-    if (filters.category) {
-      result = result.filter(p => p.category?.id === filters.category);
-    }
-
-    if (filters.priceMin > 0) {
-      result = result.filter(p => p.price >= filters.priceMin);
-    }
-
-    if (filters.priceMax < Infinity) {
-      result = result.filter(p => p.price <= filters.priceMax);
-    }
-
-    return result;
+      return matchesSearch && matchesCategory && matchesPrice;
+    });
   }, [allProducts, filters]);
 
-  // Compute current page products
-  const products = useMemo(() => {
-    const start = (page - 1) * limit;
-    return filteredProducts.slice(start, start + limit);
-  }, [filteredProducts, page, limit]);
-
-  const totalCount = filteredProducts.length;
+  /**
+   * Slice for pagination
+   */
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredProducts.slice(start, start + pageSize);
+  }, [filteredProducts, currentPage, pageSize]);
 
   const setFilter = useCallback((key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   }, []);
 
   return {
-    products,
+    products: paginatedProducts,
     loading,
     error,
-    totalCount,
+    totalCount: filteredProducts.length,
     filters,
     setFilter
   };

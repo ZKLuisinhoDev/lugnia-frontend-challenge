@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'primereact/button';
 import { useTheme } from '../../context/ThemeContext';
 
-const LandingHeader = ({ onExplore, cartCount }) => {
+const LandingHeader = ({ onExplore }) => {
   const { isDark, toggleTheme } = useTheme();
 
   return (
@@ -41,6 +42,10 @@ const LandingHeader = ({ onExplore, cartCount }) => {
       </div>
     </header>
   );
+};
+
+LandingHeader.propTypes = {
+  onExplore: PropTypes.func.isRequired
 };
 
 export default LandingHeader;

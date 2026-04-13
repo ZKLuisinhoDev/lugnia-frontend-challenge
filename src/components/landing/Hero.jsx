@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'primereact/button';
 
 const Hero = ({ onExplore }) => {
@@ -78,6 +79,10 @@ const Hero = ({ onExplore }) => {
       </div>
     </section>
   );
+};
+
+Hero.propTypes = {
+  onExplore: PropTypes.func.isRequired
 };
 
 export default Hero;

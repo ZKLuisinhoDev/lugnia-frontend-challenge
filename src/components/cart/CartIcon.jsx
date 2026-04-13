@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CartIcon = ({ itemsCount, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="relative p-3 rounded-xl text-teal-600 hover:bg-teal-50 hover:text-teal-700 transition-all duration-200 cursor-pointer group"
+      className="relative p-3 rounded-xl text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-slate-800 hover:text-teal-700 transition-all duration-200 cursor-pointer group"
       title="Ver carrito"
     >
       <i className="pi pi-shopping-cart text-3xl group-hover:scale-110 transition-transform duration-200"></i>
@@ -15,6 +16,11 @@ const CartIcon = ({ itemsCount, onClick }) => {
       )}
     </button>
   );
+};
+
+CartIcon.propTypes = {
+  itemsCount: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default CartIcon;

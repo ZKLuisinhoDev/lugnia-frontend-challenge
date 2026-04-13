@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LandingHeader from '../components/landing/LandingHeader';
 import Hero from '../components/landing/Hero';
 import Features from '../components/landing/Features';
@@ -64,6 +65,10 @@ const LandingPage = ({ onEnterStore }) => {
       <LandingFooter />
     </div>
   );
+};
+
+LandingPage.propTypes = {
+  onEnterStore: PropTypes.func.isRequired
 };
 
 export default LandingPage;

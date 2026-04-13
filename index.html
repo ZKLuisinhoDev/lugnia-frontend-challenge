@@ -15,8 +15,6 @@
           const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
           if (isDark) {
             document.documentElement.classList.add('dark');
-            // We can't easily wait for the link to exist here without more complex logic,
-            // but the ThemeContext will handle it once React loads.
           }
         } catch (e) {}
       })();
