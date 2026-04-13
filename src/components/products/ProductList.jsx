@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 const ProductList = ({ products = [], loading, error, onAddToCart }) => {
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {Array.from({ length: 8 }).map((_, index) => (
           <div key={`skeleton-${index}`} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 flex flex-col h-full animate-pulse">
             <Skeleton width="100%" height="200px" className="mb-4 rounded-xl"></Skeleton>

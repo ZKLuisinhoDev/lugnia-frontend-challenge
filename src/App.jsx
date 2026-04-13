@@ -43,11 +43,11 @@ function ShopContent() {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-              Premium<span className="text-cyan-600">Store</span>
+            <h1 className="text-3xl font-black text-gray-900 tracking-tight">
+              Sumaq<span className="text-cyan-600">.</span>
             </h1>
-            <p className="text-sm text-gray-500">
-              Colección exclusiva de productos
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">
+              Origen y calidad
             </p>
           </div>
           
