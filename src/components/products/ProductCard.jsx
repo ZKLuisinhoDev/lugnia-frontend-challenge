@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from 'primereact/button';
-import { Chip } from 'primereact/chip';
 
 const ProductCard = ({ product, onAddToCart }) => {
   const { id, name, description, price, categoryName, image } = product;
@@ -23,53 +22,54 @@ const ProductCard = ({ product, onAddToCart }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 hover:border-cyan-400 shadow-sm hover:shadow-xl transition-all duration-300 p-4 flex flex-col h-full group">
-      {/* Image area */}
-      <div className="w-full aspect-square mb-4 overflow-hidden rounded-xl relative bg-gray-100">
+    <div className="bg-white rounded-[2.5rem] border border-gray-100 hover:border-cyan-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(8,112,184,0.07)] transition-all duration-500 p-6 flex flex-col h-full group relative overflow-hidden">
+      
+      {/* Glossy gradient accent */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-50/50 blur-[50px] rounded-full -mr-16 -mt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+      {/* Image Area - Tall and Spacious */}
+      <div className="w-full aspect-square mb-6 overflow-hidden rounded-[1.8rem] relative bg-gray-50/50 flex items-center justify-center border border-gray-50 shadow-inner">
         <img
-          src={image || `https://picsum.photos/id/${id}/400/400`}
+          src={image || `https://picsum.photos/id/${id}/500/500`}
           alt={name}
           onError={handleImageError}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
           loading="lazy"
         />
+        {/* Category Badge - Minimalist */}
+        {categoryName && (
+          <div className="absolute top-3 left-3">
+            <span className="px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] bg-white/90 backdrop-blur-md text-cyan-600 rounded-full shadow-sm border border-white/50">
+              {categoryName}
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* Category chip */}
-      {categoryName && (
-        <div className="mb-3">
-          <Chip 
-            label={categoryName} 
-            className="bg-cyan-50 text-cyan-700 font-medium text-xs border border-cyan-200"
-          />
-        </div>
-      )}
-
-      {/* Product info */}
-      <div className="flex-1 mb-4">
-        <h3 className="text-base font-bold text-gray-800 leading-tight mb-2 line-clamp-2 min-h-[2.5rem]">
-          {name}
-        </h3>
-        <p className="text-sm text-gray-500 line-clamp-2 mb-3">
-          {description || 'Sin descripción'}
-        </p>
-      </div>
-
-      {/* Price and button */}
-      <div className="mt-auto pb-4">
-        <div className="flex items-center justify-between px-4 mb-3">
-          <span className="text-xl font-bold text-gray-900">
+      {/* Content Area */}
+      <div className="flex flex-col flex-1 px-1">
+        <div className="flex justify-between items-start gap-4 mb-2">
+           <h3 className="text-lg font-black text-gray-800 leading-tight line-clamp-2" title={name}>
+            {name}
+          </h3>
+          <span className="text-xl font-bold text-gray-900 tracking-tighter">
             {formattedPrice}
           </span>
         </div>
-        <div className="px-4 mb-4">
-          <button
+        
+        <p className="text-sm text-gray-400 font-medium line-clamp-2 leading-relaxed mb-6">
+          {description || 'Calidad premium garantizada con materiales de alta durabilidad y diseño innovador.'}
+        </p>
+
+        {/* Action Button - Large and Rounded */}
+        <div className="mt-auto pt-2">
+          <Button 
+            label="Añadir al carrito" 
+            icon="pi pi-shopping-cart"
+            outlined
+            className="w-full text-cyan-600 border-2 border-cyan-500 hover:bg-cyan-600 hover:text-white rounded-2xl py-3.5 font-black text-sm transition-all duration-300 transform active:scale-[0.97]"
             onClick={handleAddToCart}
-            className="w-auto mx-auto flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg py-2.5 px-6 transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer"
-          >
-            <i className="pi pi-shopping-cart text-sm"></i>
-            <span>Añadir al carrito</span>
-          </button>
+          />
         </div>
       </div>
     </div>
