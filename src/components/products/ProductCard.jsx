@@ -1,52 +1,60 @@
 import React from 'react';
 
-const ProductCard = ({ id, name, price, category }) => {
-  // Formatear precio a COP
+const ProductCard = ({ id, name, price, categoryName }) => {
   const formattedPrice = new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP',
     minimumFractionDigits: 0,
   }).format(price || 0);
 
-  // Manejador de error en la carga de la imagen
   const handleImageError = (e) => {
-    e.target.src = 'https://placehold.co/300x200?text=Sin+Imagen';
+    e.target.src = 'https://placehold.co/400x300?text=Sin+Imagen';
   };
 
   const handleAddToCart = () => {
-    console.log(`Agregar al carrito producto: ${name} (ID: ${id})`);
+    console.log(`Agregar al carrito: ${name}`);
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col h-full group">
-      <div className="relative overflow-hidden bg-gray-100 aspect-[3/2]">
+    <div className="group relative bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full">
+      {/* Image Container */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
         <img
-          src={`https://picsum.photos/id/${id}/300/200`}
-          alt={`Imagen de ${name}`}
+          src={`https://picsum.photos/id/${id}/400/300`}
+          alt={name}
           onError={handleImageError}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           loading="lazy"
         />
+        {/* Category Badge */}
+        <div className="absolute top-3 left-3">
+          <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-white/90 backdrop-blur-sm text-blue-600 rounded-full shadow-sm">
+            {categoryName}
+          </span>
+        </div>
       </div>
-      
-      <div className="p-5 flex flex-col flex-grow">
-        <h3 className="text-lg font-semibold text-gray-800 line-clamp-2 leading-tight mb-1" title={name}>
+
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-grow">
+        <h3 className="text-lg font-bold text-gray-800 line-clamp-2 leading-tight mb-2 min-h-[3rem]">
           {name}
         </h3>
         
-        <p className="text-xs text-gray-500 mb-4 uppercase tracking-wider font-semibold">
-          {category?.name || 'Categoría no disponible'}
-        </p>
-        
-        <div className="mt-auto flex items-center justify-between">
-          <span className="text-xl font-bold text-gray-900">
-            {formattedPrice}
-          </span>
+        <div className="mt-auto flex items-center justify-between gap-4">
+          <div className="flex flex-col">
+            <span className="text-xs text-gray-400 font-medium uppercase tracking-tighter">Precio</span>
+            <span className="text-2xl font-black text-blue-600 tracking-tight">
+              {formattedPrice}
+            </span>
+          </div>
+          
           <button
             onClick={handleAddToCart}
-            className="bg-primary hover:bg-blue-700 bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center gap-2"
+            className="flex items-center justify-center p-3 bg-blue-600 text-white rounded-xl hover:bg-black transition-all duration-300 shadow-lg shadow-blue-200 hover:shadow-none active:scale-95 group/btn"
           >
-            Agregar
+            <svg className="w-6 h-6 transform transition-transform group-hover/btn:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
+            </svg>
           </button>
         </div>
       </div>

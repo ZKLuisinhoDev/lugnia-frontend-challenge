@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { getProducts } from '../services/api';
 
 export const useProducts = (page = 1, limit = 10) => {
@@ -15,10 +16,27 @@ export const useProducts = (page = 1, limit = 10) => {
       setError(null);
       
       try {
-        const { data, totalCount } = await getProducts(page, limit);
+        // Fetch both products and categories in parallel
+        const [productsRes, categoriesRes] = await Promise.all([
+          getProducts(page, limit),
+          axios.get('https://api.fake-rest.refine.dev/categories').then(res => res.data)
+        ]);
+
         if (isMounted) {
-          setProducts(data);
-          setTotalCount(totalCount);
+          // Create a lookup map for categories
+          const categoryMap = categoriesRes.reduce((acc, cat) => {
+            acc[cat.id] = cat.title;
+            return acc;
+          }, {});
+
+          // Enrich products with category names
+          const enrichedProducts = productsRes.data.map(product => ({
+            ...product,
+            categoryName: categoryMap[product.category?.id] || 'Otras'
+          }));
+
+          setProducts(enrichedProducts);
+          setTotalCount(productsRes.totalCount);
         }
       } catch (err) {
         if (isMounted) {

@@ -15,9 +15,11 @@ export const getProducts = async (page = 1, limit = 10) => {
       }
     });
 
+    console.log('API Response Data:', response.data);
+    console.log('API Response Headers:', response.headers);
+
     return {
       data: response.data,
-      // Refine fake API uses 'x-total-count' header for pagination total
       totalCount: parseInt(response.headers['x-total-count'] || '0', 10) 
     };
   } catch (error) {
