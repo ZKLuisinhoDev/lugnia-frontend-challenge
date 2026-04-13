@@ -1,16 +1,18 @@
-# React + Vite
+# Sumaq. • Origen y Calidad 🏔️✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Sumaq Banner](public/images/hero.png)
 
-Currently, two official plugins are available:
+**Sumaq.** es una plataforma de e-commerce de alto rendimiento construida con **React 19** y **Vite**. Esta aplicación no es solo un catálogo, sino una propuesta estética y técnica que busca redefinir la experiencia de compra digital con un toque humano y cultural.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Hecho con ❤️ en **Pasto, Colombia**.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🏔️ El Concepto: ¿Por qué "Sumaq"?
 
-## Expanding the ESLint configuration
+**Sumaq** es una palabra de nuestra lengua ancestral, el **Quechua**, que significa literalmente *hermoso, bueno, excelente o de gran valor*. 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+El nombre fue elegido por tres razones fundamentales:
+1. **Identidad**: Conectar la tecnología de vanguardia con nuestras raíces andinas (Pasto).
+2. **Filosofía**: Reflejar el concepto de **Sumak Kawsay** (El Buen Vivir), donde la calidad y la belleza están en armonía con la función.
+3. **Promesa de Marca**: Garantizar que **cada producto** en el catálogo ha sido curado bajo estándares de "Origen y Calidad".
