@@ -25,11 +25,11 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <div className="w-full">
-      <label htmlFor={searchInputId} className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1">
+      <label htmlFor={searchInputId} className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-3 ml-1">
         Buscar
       </label>
       <IconField iconPosition="left">
-        <InputIcon className="pi pi-search text-gray-400"> </InputIcon>
+        <InputIcon className="pi pi-search text-gray-400 dark:text-slate-500"> </InputIcon>
         <InputText 
           id={searchInputId}
           value={query} 

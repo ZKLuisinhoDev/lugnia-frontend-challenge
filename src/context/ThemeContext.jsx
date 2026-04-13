@@ -12,6 +12,11 @@ export const ThemeProvider = ({ children }) => {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
+  const [isSticky, setIsSticky] = useState(() => {
+    const saved = localStorage.getItem('header-sticky');
+    return saved === null ? true : saved === 'true';
+  });
+
   useEffect(() => {
     const html = document.documentElement;
     const themeLink = document.getElementById('theme-link');
@@ -31,12 +36,15 @@ export const ThemeProvider = ({ children }) => {
     }
   }, [isDark]);
 
-  const toggleTheme = () => {
-    setIsDark(prev => !prev);
-  };
+  useEffect(() => {
+    localStorage.setItem('header-sticky', isSticky);
+  }, [isSticky]);
+
+  const toggleTheme = () => setIsDark(prev => !prev);
+  const toggleSticky = () => setIsSticky(prev => !prev);
 
   return (
-    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+    <ThemeContext.Provider value={{ isDark, toggleTheme, isSticky, toggleSticky }}>
       {children}
     </ThemeContext.Provider>
   );

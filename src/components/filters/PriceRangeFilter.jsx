@@ -24,7 +24,7 @@ const PriceRangeFilter = ({ onFilter }) => {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <p className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1 ml-1">
+      <p className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-1 ml-1">
         Precio
       </p>
       <div className="flex items-center gap-2">
@@ -60,7 +60,7 @@ const PriceRangeFilter = ({ onFilter }) => {
         <Button 
           icon="pi pi-check" 
           onClick={handleApply}
-          className="bg-cyan-600 border-none rounded-2xl px-6 h-[58px] shadow-lg shadow-cyan-100 hover:bg-black transition-all"
+          className="bg-cyan-600 border-none rounded-2xl px-6 h-[58px] shadow-lg shadow-cyan-100 dark:shadow-none hover:bg-black transition-all"
           aria-label="Aplicar filtro de precio"
         />
       </div>

@@ -17,7 +17,7 @@ const CategoryFilter = ({ categories = EMPTY_OPTIONS, onFilter, selectedValue })
 
   return (
     <div className="w-full">
-      <label htmlFor={dropdownId} className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1">
+      <label htmlFor={dropdownId} className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-3 ml-1">
         Categoría
       </label>
       <Dropdown 

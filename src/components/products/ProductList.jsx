@@ -46,12 +46,12 @@ const ProductList = ({ products = EMPTY_ARRAY, loading = false, error = null, on
 
   if (!products || products.length === 0) {
     return (
-      <div className="bg-white dark:bg-slate-900 p-12 rounded-[2.5rem] border border-gray-100 dark:border-slate-800 text-center shadow-sm max-w-2xl mx-auto">
-        <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <i className="pi pi-search text-gray-300 text-4xl"></i>
+      <div className="bg-white dark:bg-slate-900 p-12 rounded-[2.5rem] border border-gray-100 dark:border-slate-800 text-center shadow-sm max-w-2xl mx-auto transition-colors duration-500">
+        <div className="w-20 h-20 bg-gray-50 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i className="pi pi-search text-gray-300 dark:text-slate-600 text-4xl"></i>
         </div>
-        <h2 className="text-2xl font-black text-gray-900 mb-2">No hay resultados</h2>
-        <p className="text-gray-500 max-w-xs mx-auto text-sm leading-relaxed">
+        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">No hay resultados</h2>
+        <p className="text-gray-500 dark:text-gray-400 max-w-xs mx-auto text-sm leading-relaxed">
           Prueba ajustando los filtros o buscando algo diferente en nuestro catálogo.
         </p>
       </div>
