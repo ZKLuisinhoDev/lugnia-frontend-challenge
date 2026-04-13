@@ -38,7 +38,7 @@ const PriceRangeFilter = ({ onFilter }) => {
             currency="USD" 
             locale="en-US"
             className="w-full"
-            inputClassName="w-full border-gray-100 rounded-2xl p-4 border bg-gray-50/50"
+            inputClassName="w-full border-gray-100 dark:border-slate-800 rounded-2xl p-4 border bg-gray-50/50 dark:bg-slate-800/50 dark:text-white"
             aria-label="Precio mínimo"
           />
         </div>
@@ -53,7 +53,7 @@ const PriceRangeFilter = ({ onFilter }) => {
             currency="USD" 
             locale="en-US"
             className="w-full"
-            inputClassName="w-full border-gray-100 rounded-2xl p-4 border bg-gray-50/50"
+            inputClassName="w-full border-gray-100 dark:border-slate-800 rounded-2xl p-4 border bg-gray-50/50 dark:bg-slate-800/50 dark:text-white"
             aria-label="Precio máximo"
           />
         </div>

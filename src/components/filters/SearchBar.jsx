@@ -35,7 +35,7 @@ const SearchBar = ({ onSearch }) => {
           value={query} 
           onChange={(e) => setQuery(e.target.value)} 
           placeholder="Buscar productos por nombre..." 
-          className="w-full py-4 px-12 border-gray-100 rounded-2xl focus:shadow-none transition-all border bg-gray-50/50"
+          className="w-full py-4 px-12 border-gray-100 dark:border-slate-800 rounded-2xl focus:shadow-none transition-all border bg-gray-50/50 dark:bg-slate-800/50 dark:text-white"
         />
       </IconField>
     </div>

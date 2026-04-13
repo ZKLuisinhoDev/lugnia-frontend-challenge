@@ -13,7 +13,7 @@ const FilterBar = ({
   categoryValue 
 }) => {
   return (
-    <div className="bg-white p-6 md:p-8 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-10 translate-y-[-50%] relative z-20">
+    <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-gray-100 dark:border-slate-800 mb-10 translate-y-[-50%] relative z-20 transition-colors duration-500">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
         <div className="md:col-span-12 lg:col-span-5">
           <SearchBar onSearch={onSearch} />

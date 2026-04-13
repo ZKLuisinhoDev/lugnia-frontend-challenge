@@ -26,7 +26,7 @@ const CategoryFilter = ({ categories = EMPTY_OPTIONS, onFilter, selectedValue })
         options={options} 
         onChange={(e) => onFilter(e.value)} 
         placeholder="Seleccionar categoría" 
-        className="w-full border-gray-100 rounded-2xl focus:shadow-none border h-[58px] items-center bg-gray-50/50"
+        className="w-full border-gray-100 dark:border-slate-800 rounded-2xl focus:shadow-none border h-[58px] items-center bg-gray-50/50 dark:bg-slate-800/50 dark:text-white"
         showClear
       />
     </div>

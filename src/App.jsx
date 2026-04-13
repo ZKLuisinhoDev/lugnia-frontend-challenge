@@ -1,5 +1,8 @@
 import React, { useState, Suspense, lazy, useCallback, useRef } from 'react';
+import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 import { CartProvider, useCart } from './context/CartContext';
+import { useTheme } from './context/ThemeContext';
 import ProductList from './components/products/ProductList';
 import FilterBar from './components/filters/FilterBar';
 import CartIcon from './components/cart/CartIcon';
@@ -7,7 +10,6 @@ import Pagination from './components/ui/Pagination';
 import ErrorBoundary from './components/ui/ErrorBoundary';
 import { useProducts } from './hooks/useProducts';
 import { useCategories } from './hooks/useCategories';
-import { Toast } from 'primereact/toast';
 import { API_CONFIG } from './constants/api';
 
 // Loading CartDrawer lazily for better initial performance
@@ -21,6 +23,7 @@ function ShopContent() {
   const { products, loading, error, totalCount, filters, setFilter } = useProducts(page, API_CONFIG.DEFAULT_LIMIT);
   const { categories } = useCategories();
   const { cart, addToCart, removeFromCart, updateQuantity, clearCart, getCartTotal, getCartItemsCount } = useCart();
+  const { isDark, toggleTheme } = useTheme();
   const [cartVisible, setCartVisible] = useState(false);
   const toast = useRef(null);
 
@@ -57,14 +60,14 @@ function ShopContent() {
   }, [setFilter]);
 
   return (
-    <div className="min-h-screen bg-gray-50/50 font-sans">
+    <div className="min-h-screen bg-gray-50/50 dark:bg-slate-950 transition-colors duration-500 font-sans">
       <Toast ref={toast} position="top-right" />
       
       {/* Header Section */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40 shadow-sm px-4 md:px-0">
+      <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 sticky top-0 z-40 shadow-sm px-4 md:px-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
           <div className="flex flex-col">
-            <h1 className="text-4xl font-black text-gray-900 tracking-tighter">
+            <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter">
               Sumaq<span className="text-cyan-600">.</span>
             </h1>
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-1 ml-0.5">
@@ -72,10 +75,20 @@ function ShopContent() {
             </p>
           </div>
           
-          <CartIcon 
-            itemsCount={getCartItemsCount()} 
-            onClick={() => setCartVisible(true)} 
-          />
+          <div className="flex items-center gap-4">
+            <Button 
+              icon={isDark ? "pi pi-sun" : "pi pi-moon"} 
+              onClick={toggleTheme} 
+              rounded 
+              text 
+              className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 p-0 w-10 h-10 flex items-center justify-center transition-all"
+              aria-label="Alternar modo oscuro"
+            />
+            <CartIcon 
+              itemsCount={getCartItemsCount()} 
+              onClick={() => setCartVisible(true)} 
+            />
+          </div>
         </div>
       </header>
 
@@ -96,9 +109,9 @@ function ShopContent() {
         {/* Results Metadata */}
         {!loading && !error && (
           <div className="mb-8 flex items-center justify-between px-2">
-            <h2 className="text-gray-500 font-bold text-sm uppercase tracking-tight">
-              Colección completa <span className="text-gray-300 mx-2">/</span> 
-              <span className="text-gray-900 font-black">{totalCount} productos encontrados</span>
+            <h2 className="text-gray-500 dark:text-gray-400 font-bold text-sm uppercase tracking-tight">
+              Colección completa <span className="text-gray-300 dark:text-gray-700 mx-2">/</span> 
+              <span className="text-gray-900 dark:text-white font-black">{totalCount} productos encontrados</span>
             </h2>
           </div>
         )}

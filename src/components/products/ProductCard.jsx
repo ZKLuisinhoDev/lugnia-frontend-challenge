@@ -40,10 +40,10 @@ const ProductCard = ({ product, onAddToCart }) => {
         role="button"
         tabIndex={0}
         aria-label={`Ver detalles de ${name}`}
-        className="bg-white rounded-[2.5rem] border border-gray-100 hover:border-cyan-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(8,112,184,0.08)] transition-all duration-500 p-6 flex flex-col h-full group cursor-pointer"
+        className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-gray-100 dark:border-slate-800 hover:border-cyan-200 dark:hover:border-cyan-600 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:shadow-[0_20px_50px_rgba(8,112,184,0.08)] transition-all duration-500 p-6 flex flex-col h-full group cursor-pointer"
       >
         {/* Image Area */}
-        <div className="w-full aspect-square mb-6 overflow-hidden rounded-[2rem] relative bg-gray-50 flex items-center justify-center border border-gray-50 shadow-inner">
+        <div className="w-full aspect-square mb-6 overflow-hidden rounded-[2rem] relative bg-gray-50 dark:bg-slate-800 flex items-center justify-center border border-gray-50 dark:border-slate-700 shadow-inner">
           <img
             src={image || `https://picsum.photos/id/${id}/500/500`}
             alt=""
@@ -53,7 +53,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           />
           {categoryName && (
             <div className="absolute top-4 left-4">
-              <span className="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest bg-white/90 backdrop-blur-md text-cyan-600 rounded-full shadow-sm">
+              <span className="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-cyan-600 dark:text-cyan-400 rounded-full shadow-sm">
                 {categoryName}
               </span>
             </div>
@@ -63,11 +63,11 @@ const ProductCard = ({ product, onAddToCart }) => {
         {/* Content */}
         <div className="flex flex-col flex-1 px-1">
           <div className="flex justify-between items-start gap-4 mb-3">
-            <h3 className="text-xl font-black text-gray-800 leading-tight line-clamp-2">{name}</h3>
-            <span className="text-2xl font-black text-gray-900 tracking-tighter">{formattedPrice}</span>
+            <h3 className="text-xl font-black text-gray-800 dark:text-gray-100 leading-tight line-clamp-2">{name}</h3>
+            <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">{formattedPrice}</span>
           </div>
           
-          <p className="text-sm text-gray-400 font-medium line-clamp-2 leading-relaxed mb-8">
+          <p className="text-sm text-gray-400 dark:text-gray-500 font-medium line-clamp-2 leading-relaxed mb-8">
             {description || 'Calidad sumaq garantizada con los mejores materiales.'}
           </p>
 
@@ -76,7 +76,7 @@ const ProductCard = ({ product, onAddToCart }) => {
               label="Añadir al carrito" 
               icon="pi pi-shopping-cart"
               outlined
-              className="w-full text-cyan-600 border-2 border-cyan-500 hover:bg-cyan-600 hover:text-white rounded-2xl py-4 font-black text-sm transition-all duration-300"
+              className="w-full text-cyan-600 dark:text-cyan-400 border-2 border-cyan-500 dark:border-cyan-600 hover:bg-cyan-600 hover:text-white rounded-2xl py-4 font-black text-sm transition-all duration-300"
               onClick={handleAddToCart}
             />
           </div>
@@ -90,13 +90,12 @@ const ProductCard = ({ product, onAddToCart }) => {
         draggable={false}
         resizable={false}
         showHeader={false}
-        className="w-[90vw] md:w-[750px] lg:w-[900px] border-none shadow-2xl rounded-[3rem] overflow-hidden"
-        contentClassName="p-0 border-none rounded-[3rem] bg-white overflow-hidden"
+        className="w-[90vw] md:w-[750px] lg:w-[900px] border-none shadow-2xl rounded-[3rem] overflow-hidden bg-white dark:bg-slate-900"
         modal
         dismissableMask
       >
-        <div className="flex flex-col md:flex-row h-full">
-          <div className="w-full md:w-1/2 aspect-square md:aspect-auto bg-gray-50 relative overflow-hidden">
+        <div className="flex flex-col md:flex-row h-full min-h-[400px]">
+          <div className="w-full md:w-1/2 aspect-square md:aspect-auto bg-gray-50 dark:bg-slate-800 relative overflow-hidden">
              <img
               src={image || `https://picsum.photos/id/${id}/800/800`}
               alt={name}
@@ -106,44 +105,44 @@ const ProductCard = ({ product, onAddToCart }) => {
             />
             <button 
               onClick={() => setShowModal(false)}
-              className="absolute top-6 left-6 w-12 h-12 bg-white/80 backdrop-blur-lg rounded-full flex items-center justify-center text-gray-800 shadow-lg hover:bg-black hover:text-white transition-all z-10"
+              className="absolute top-6 left-6 w-12 h-12 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg rounded-full flex items-center justify-center text-gray-800 dark:text-white shadow-lg hover:bg-black hover:text-white transition-all z-10"
               aria-label="Cerrar modal"
             >
               <i className="pi pi-arrow-left text-sm"></i>
             </button>
           </div>
 
-          <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
+          <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-white dark:bg-slate-900">
             <div className="mb-6">
                <Tag 
                 value={categoryName} 
-                className="bg-cyan-50 text-cyan-700 font-black text-[10px] uppercase tracking-widest px-4 py-2 rounded-full border border-cyan-100"
+                className="bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-400 font-black text-[10px] uppercase tracking-widest px-4 py-2 rounded-full border border-cyan-100 dark:border-cyan-800"
               />
             </div>
             
-            <h2 className="text-4xl font-black text-gray-900 mb-2 leading-none tracking-tight">
+            <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-2 leading-none tracking-tight">
               {name}
             </h2>
-            <p className="text-3xl font-black text-cyan-600 mb-8 tracking-tighter">
+            <p className="text-3xl font-black text-cyan-600 dark:text-cyan-400 mb-8 tracking-tighter">
               {formattedPrice}
             </p>
 
             <div className="space-y-6 mb-10">
               <div>
-                <h4 className="text-xs font-black text-gray-300 uppercase tracking-[0.2em] mb-3">Descripción</h4>
-                <p className="text-gray-500 leading-relaxed text-sm font-medium">
+                <h4 className="text-xs font-black text-gray-300 dark:text-gray-600 uppercase tracking-[0.2em] mb-3">Descripción</h4>
+                <p className="text-gray-500 dark:text-gray-400 leading-relaxed text-sm font-medium">
                   {description || 'Este producto suma calidad y diseño en cada detalle. Perfectamente balanceado para ofrecer una experiencia duradera y estética excepcional.'}
                 </p>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Garantía</p>
-                   <p className="text-xs font-bold text-gray-700">12 Meses</p>
+                <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
+                   <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Garantía</p>
+                   <p className="text-xs font-bold text-gray-700 dark:text-gray-300">12 Meses</p>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Envío</p>
-                   <p className="text-xs font-bold text-gray-700">Gratis hoy</p>
+                <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
+                   <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Envío</p>
+                   <p className="text-xs font-bold text-gray-700 dark:text-gray-300">Gratis hoy</p>
                 </div>
               </div>
             </div>

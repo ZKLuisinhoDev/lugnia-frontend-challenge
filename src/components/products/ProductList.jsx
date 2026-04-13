@@ -11,8 +11,8 @@ const ProductList = ({ products = EMPTY_ARRAY, loading = false, error = null, on
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {Array.from({ length: 6 }).map((_, index) => (
-          <div key={`skeleton-${index}`} className="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm p-6 flex flex-col h-full animate-pulse">
-            <Skeleton width="100%" className="mb-6 aspect-square rounded-[1.8rem]"></Skeleton>
+          <div key={`skeleton-${index}`} className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-gray-100 dark:border-slate-800 shadow-sm p-6 flex flex-col h-full animate-pulse">
+            <Skeleton width="100%" className="mb-6 aspect-square rounded-[1.8rem] dark:bg-slate-800"></Skeleton>
             <div className="flex justify-between items-start mb-6 gap-4">
               <Skeleton width="60%" height="2rem"></Skeleton>
               <Skeleton width="20%" height="2rem"></Skeleton>
@@ -30,7 +30,7 @@ const ProductList = ({ products = EMPTY_ARRAY, loading = false, error = null, on
 
   if (error) {
     return (
-      <div className="bg-white p-12 rounded-[2.5rem] border border-red-100 text-center shadow-sm max-w-2xl mx-auto">
+      <div className="bg-white dark:bg-slate-900 p-12 rounded-[2.5rem] border border-red-100 dark:border-red-900/30 text-center shadow-sm max-w-2xl mx-auto">
         <i className="pi pi-exclamation-triangle text-red-500 text-5xl mb-6"></i>
         <h2 className="text-2xl font-black text-gray-900 mb-2">Error de conexión</h2>
         <p className="text-gray-500 mb-8">{error}</p>
@@ -46,7 +46,7 @@ const ProductList = ({ products = EMPTY_ARRAY, loading = false, error = null, on
 
   if (!products || products.length === 0) {
     return (
-      <div className="bg-white p-12 rounded-[2.5rem] border border-gray-100 text-center shadow-sm max-w-2xl mx-auto">
+      <div className="bg-white dark:bg-slate-900 p-12 rounded-[2.5rem] border border-gray-100 dark:border-slate-800 text-center shadow-sm max-w-2xl mx-auto">
         <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
           <i className="pi pi-search text-gray-300 text-4xl"></i>
         </div>
