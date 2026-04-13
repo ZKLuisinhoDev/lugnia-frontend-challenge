@@ -13,13 +13,13 @@ const LandingFooter = () => {
               Inspirados en la belleza y la calidad, curamos productos que transforman tu día a día. Calidad artesanal en un mundo digital.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-gray-400 hover:text-cyan-600 transition-all border border-gray-100 dark:border-slate-700">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-gray-400 hover:text-cyan-600 transition-all border border-gray-100 dark:border-slate-700">
                 <i className="pi pi-instagram"></i>
               </a>
-              <a href="#" className="w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-gray-400 hover:text-cyan-600 transition-all border border-gray-100 dark:border-slate-700">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-gray-400 hover:text-cyan-600 transition-all border border-gray-100 dark:border-slate-700">
                 <i className="pi pi-twitter"></i>
               </a>
-              <a href="#" className="w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-gray-400 hover:text-cyan-600 transition-all border border-gray-100 dark:border-slate-700">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-gray-400 hover:text-cyan-600 transition-all border border-gray-100 dark:border-slate-700">
                 <i className="pi pi-facebook"></i>
               </a>
             </div>
@@ -28,18 +28,18 @@ const LandingFooter = () => {
           <div>
             <h4 className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-[0.2em] mb-6">Tienda</h4>
             <ul className="space-y-4">
-              <li><a href="#" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Todos los productos</a></li>
-              <li><a href="#" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Categorías</a></li>
-              <li><a href="#" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Ofertas</a></li>
+              <li><a href="/" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Todos los productos</a></li>
+              <li><a href="/" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Categorías</a></li>
+              <li><a href="/" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Ofertas</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-[0.2em] mb-6">Soporte</h4>
             <ul className="space-y-4">
-              <li><a href="#" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">FAQ</a></li>
-              <li><a href="#" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Envíos</a></li>
-              <li><a href="#" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Privacidad</a></li>
+              <li><a href="/faq" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">FAQ</a></li>
+              <li><a href="/envios" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Envíos</a></li>
+              <li><a href="/privacidad" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-cyan-600 transition-colors">Privacidad</a></li>
             </ul>
           </div>
         </div>

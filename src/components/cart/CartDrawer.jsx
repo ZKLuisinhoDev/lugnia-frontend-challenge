@@ -2,11 +2,49 @@ import React from 'react';
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
 import CartItem from './CartItem';
+import Swal from 'sweetalert2';
+import { useTheme } from '../../context/ThemeContext';
 
 const CartDrawer = ({ visible, onHide, cart, onUpdateQuantity, onRemove, onClearCart, getCartTotal, getCartItemsCount }) => {
+  const { isDark } = useTheme();
+
   const handleCheckout = () => {
-    alert('¡Gracias por tu compra! (Demo)');
-    onClearCart();
+    onHide(); // Close sidebar first
+    
+    Swal.fire({
+      title: '¡Procesando Compra!',
+      text: 'Estamos preparando tus productos de calidad Sumaq.',
+      icon: 'success',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      background: isDark ? '#0f172a' : '#fff',
+      color: isDark ? '#fff' : '#0f172a',
+      iconColor: '#0891b2',
+      customClass: {
+        popup: 'rounded-[2.5rem] border-none shadow-2xl font-sans',
+        title: 'text-3xl font-black tracking-tighter',
+      },
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    }).then(() => {
+      Swal.fire({
+        title: '¡Compra Exitosa!',
+        html: `Tu pedido ha sido registrado.<br/><span class="text-gray-400 text-sm">Pronto lo recibirás desde Pasto con amor.</span>`,
+        icon: 'success',
+        confirmButtonText: '¡Excelente!',
+        confirmButtonColor: '#0891b2',
+        background: isDark ? '#0f172a' : '#fff',
+        color: isDark ? '#fff' : '#0f172a',
+        customClass: {
+          popup: 'rounded-[3rem] border-none shadow-2xl font-sans',
+          title: 'text-3xl font-black tracking-tighter',
+          confirmButton: 'rounded-2xl px-10 py-4 font-black transition-all text-white'
+        }
+      });
+      onClearCart();
+    });
   };
 
   const formattedTotal = new Intl.NumberFormat('en-US', {
@@ -35,7 +73,7 @@ const CartDrawer = ({ visible, onHide, cart, onUpdateQuantity, onRemove, onClear
         </div>
       }
     >
-      <div className="flex flex-col h-full bg-white dark:bg-slate-900">
+      <div className="flex flex-col h-full bg-white dark:bg-slate-900 transition-colors duration-500">
         <div className="flex-1 overflow-y-auto px-6 py-4 custom-scrollbar">
           {cart.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8">

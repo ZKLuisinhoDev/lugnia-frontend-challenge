@@ -20,7 +20,9 @@ const CartDrawer = lazy(() => import('./components/cart/CartDrawer'));
  * Main shop content component to manage state and layout.
  */
 function ShopContent() {
-  const [view, setView] = useState('landing');
+  const [view, setView] = useState(() => {
+    return localStorage.getItem('last-view') || 'landing';
+  });
   const [page, setPage] = useState(API_CONFIG.DEFAULT_PAGE);
   const { products, loading, error, totalCount, filters, setFilter } = useProducts(page, API_CONFIG.DEFAULT_LIMIT);
   const { categories } = useCategories();
@@ -32,11 +34,13 @@ function ShopContent() {
   // Navigation handlers
   const handleEnterStore = useCallback(() => {
     setView('shop');
+    localStorage.setItem('last-view', 'shop');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleBackToHome = useCallback(() => {
     setView('landing');
+    localStorage.setItem('last-view', 'landing');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 

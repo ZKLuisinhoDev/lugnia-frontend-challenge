@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer, useEffect } from 'react';
 
 const CartContext = createContext();
 
-const CART_STORAGE_KEY = 'premiumstore-cart';
+export const CART_STORAGE_KEY = 'premiumstore-cart';
 
 const loadCartFromStorage = () => {
   try {

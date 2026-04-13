@@ -16,7 +16,7 @@ const ProductCard = ({ product, onAddToCart }) => {
   }).format(price || 0);
 
   const handleImageError = (e) => {
-    e.target.src = `https://picsum.photos/400/400?random=${id}`;
+    e.target.src = `https://picsum.photos/id/${id}/300/200`;
   };
 
   const handleAddToCart = (e) => {
@@ -45,7 +45,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         {/* Image Area */}
         <div className="w-full aspect-square mb-6 overflow-hidden rounded-[2rem] relative bg-gray-50 dark:bg-slate-800 flex items-center justify-center border border-gray-50 dark:border-slate-700 shadow-inner">
           <img
-            src={image || `https://picsum.photos/id/${id}/500/500`}
+            src={image || `https://picsum.photos/id/${id}/300/200`}
             alt=""
             onError={handleImageError}
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
@@ -97,7 +97,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         <div className="flex flex-col md:flex-row h-full min-h-[400px]">
           <div className="w-full md:w-1/2 aspect-square md:aspect-auto bg-gray-50 dark:bg-slate-800 relative overflow-hidden">
              <img
-              src={image || `https://picsum.photos/id/${id}/800/800`}
+              src={image || `https://picsum.photos/id/${id}/900/600`}
               alt={name}
               onError={handleImageError}
               className="w-full h-full object-cover animate-fadein"

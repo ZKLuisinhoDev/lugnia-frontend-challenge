@@ -42,6 +42,8 @@ El nombre fue elegido por tres razones fundamentales:
 | **Tailwind CSS 4** | Estilizado atómico y moderno |
 | **PrimeReact 10** | Componentes de UI robustos y accesibles |
 | **Axios** | Cliente HTTP para consumo de API |
+| **SweetAlert2** | Modales y notificaciones de alta calidad |
+| **Lucide/PrimeIcons** | Iconografía minimalista |
 
 ---
 
@@ -97,6 +99,53 @@ Se utilizaron etiquetas semánticas y se aseguraron los contrastes de color, log
 
 ---
 
+## 🧪 Testing & Calidad de Código
+
+Para asegurar la robustez de la aplicación, se ha implementado una suite de pruebas automatizadas centrada en la lógica de negocio crítica.
+
+### Herramientas utilizadas:
+- **Vitest**: Un framework de testing ultra-rápido diseñado para Vite.
+- **React Testing Library**: Para pruebas de componentes centradas en el usuario.
+- **JSDOM**: Un entorno de navegador simulado para Node.js.
+
+### Cobertura de Pruebas:
+Se han priorizado las pruebas unitarias para el **CartContext**, validando los siguientes escenarios:
+- ✅ **Añadir productos**: Verificación de inserción correcta en el estado.
+- ✅ **Manejo de Cantidades**: Lógica de incremento cuando un producto ya existe.
+- ✅ **Eliminación**: Limpieza persistente de ítems del carrito.
+- ✅ **Cálculo de Totales**: Verificación matemática de la suma de productos y cantidades.
+- ✅ **Persistencia**: Validación de sincronización con `localStorage`.
+
+Para ejecutar los tests en modo interactivo:
+```bash
+pnpm test
+```
+
+> [!NOTE]
+> La aplicación mantiene un puntaje de **100/100 en React-Doctor**, cumpliendo con todas las reglas de accesibilidad, performance y mejores prácticas de React 19.
+
+---
+
+## 🚀 Mejoras Futuras y ¿Qué nos falta?
+
+Para llevar esta aplicación al siguiente nivel de producción, se plantean las siguientes mejoras:
+
+### ✅ Lo que logramos (Mejoras ya implementadas)
+- **Modo Oscuro Persistente**: No solo un toggle, sino una sincronización completa con el sistema y localStorage.
+- **Normalización de Datos**: Corrección proactiva de errores en la API de origen.
+- **Arquitectura Escalable**: Separación clara de responsabilidades (Servicios, Hooks, Context, UI).
+- **SEO & Accesibilidad**: Uso de HTML semántico y cumplimiento de estándares web.
+
+### ⏳ Lo que nos falta (Roadmap Pro)
+1. **Testing de Integración**: Añadir pruebas con Playwright o Cypress para el flujo completo de compra (e2e).
+2. **Sistema de Routing**: Implementar `react-router-dom` para manejar URLs dinámicas para detalles de productos (ej: `/product/123`).
+3. **Estado Global con Redux/Zustand**: Para una aplicación mucho más grande, migrar de Context a una librería de estado más robusta.
+4. **Backend Real**: Sustituir la Mock API por un backend con Node.js/Python para manejo real de transacciones.
+5. **Animaciones Avanzadas**: Implementar `Framer Motion` para transiciones de página y gestos táctiles.
+
+---
+
 ## ✉️ Contacto
 Cualquier duda o feedback sobre la implementación, no dudes en contactarme.
 ¡Gracias por explorar **Sumaq.**!
+
