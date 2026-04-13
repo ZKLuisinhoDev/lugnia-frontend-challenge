@@ -58,6 +58,30 @@ src/
 
 ---
 
+## ⚡ Instalación y Uso
+
+Asegúrate de tener instalado **Node.js** (v18+) y **pnpm** (recomendado) o **npm**.
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone <url-del-repo>
+   cd prueba-tecnica
+   ```
+
+2. **Instalar dependencias**
+   ```bash
+   pnpm install
+   # o
+   npm install
+   ```
+
+3. **Ejecutar en desarrollo**
+   ```bash
+   pnpm dev
+   ```
+
+---
+
 ## 🧠 Decisiones Técnicas y Solución de Problemas
 
 ### 1. El Desafío de los Precios (Mock API Fix)
@@ -70,3 +94,9 @@ Sincronizar el modo oscuro entre **Tailwind 4** y los archivos CSS estáticos de
 
 ### 3. Accesibilidad y SEO
 Se utilizaron etiquetas semánticas y se aseguraron los contrastes de color, logrando un puntaje de **100/100 en React-Doctor**.
+
+---
+
+## ✉️ Contacto
+Cualquier duda o feedback sobre la implementación, no dudes en contactarme.
+¡Gracias por explorar **Sumaq.**!
