@@ -1,24 +1,84 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { getProducts } from '../services/api';
+import { getAllProducts } from '../services/api';
 
-export const useProducts = (page = 1, limit = 10) => {
+export const useProducts = (page = 1, limit = 12) => {
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [totalCount, setTotalCount] = useState(0);
+  const [filters, setFilters] = useState({
+    search: '',
+    category: '',
+    priceMin: 0,
+    priceMax: Infinity
+  });
 
+  // Apply filters to products
+  const applyFilters = useCallback(() => {
+    let filtered = [...allProducts];
+
+    // Search filter
+    if (filters.search) {
+      const searchTerm = filters.search.toLowerCase();
+      filtered = filtered.filter(product =>
+        product.name?.toLowerCase().includes(searchTerm) ||
+        product.description?.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // Category filter
+    if (filters.category) {
+      filtered = filtered.filter(product =>
+        product.category?.id === filters.category
+      );
+    }
+
+    // Price filter
+    if (filters.priceMin !== 0) {
+      filtered = filtered.filter(product =>
+        product.price >= filters.priceMin
+      );
+    }
+    if (filters.priceMax !== Infinity) {
+      filtered = filtered.filter(product =>
+        product.price <= filters.priceMax
+      );
+    }
+
+    // Pagination
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedProducts = filtered.slice(startIndex, endIndex);
+
+    setProducts(paginatedProducts);
+    setTotalCount(filtered.length);
+  }, [allProducts, filters, page, limit]);
+
+  // Set filters
+  const setFilter = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  // Apply filters whenever they change
+  useEffect(() => {
+    if (allProducts.length > 0) {
+      applyFilters();
+    }
+  }, [filters, allProducts, page, limit, applyFilters]);
+
+  // Fetch products from API
   useEffect(() => {
     let isMounted = true;
 
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
-        // Fetch both products and categories in parallel
         const [productsRes, categoriesRes] = await Promise.all([
-          getProducts(page, limit),
+          getAllProducts(),
           axios.get('https://api.fake-rest.refine.dev/categories').then(res => res.data)
         ]);
 
@@ -29,14 +89,15 @@ export const useProducts = (page = 1, limit = 10) => {
             return acc;
           }, {});
 
-          // Enrich products with category names
+          // Enrich products with category names and images
           const enrichedProducts = productsRes.data.map(product => ({
             ...product,
-            categoryName: categoryMap[product.category?.id] || 'Otras'
+            categoryName: categoryMap[product.category?.id] || 'Otras',
+            image: product.image || `https://picsum.photos/id/${product.id}/400/400`
           }));
 
-          setProducts(enrichedProducts);
-          setTotalCount(productsRes.totalCount);
+          setAllProducts(enrichedProducts);
+          setTotalCount(productsRes.totalCount || enrichedProducts.length);
         }
       } catch (err) {
         if (isMounted) {
@@ -54,7 +115,14 @@ export const useProducts = (page = 1, limit = 10) => {
     return () => {
       isMounted = false;
     };
-  }, [page, limit]);
+  }, []);
 
-  return { products, loading, error, totalCount };
+  return { 
+    products, 
+    loading, 
+    error, 
+    totalCount,
+    filters,
+    setFilter
+  };
 };

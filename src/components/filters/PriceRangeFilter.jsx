@@ -1,49 +1,67 @@
 import React, { useState } from 'react';
+import { InputNumber } from 'primereact/inputnumber';
+import { Button } from 'primereact/button';
 
 const PriceRangeFilter = ({ onFilter }) => {
-  const [min, setMin] = useState('');
-  const [max, setMax] = useState('');
-  const [error, setError] = useState('');
+  const [min, setMin] = useState(null);
+  const [max, setMax] = useState(null);
 
   const handleApply = () => {
-    const minVal = parseFloat(min);
-    const maxVal = parseFloat(max);
+    onFilter(min || 0, max || Infinity);
+  };
 
-    if (min && max && minVal > maxVal) {
-      setError('Mínimo no puede ser mayor que Máximo');
-      return;
-    }
-
-    setError('');
-    onFilter(minVal || 0, maxVal || Infinity);
+  const handleClear = () => {
+    setMin(null);
+    setMax(null);
+    onFilter(0, Infinity);
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2">
-        <input
-          type="number"
-          placeholder="Min"
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-          value={min}
-          onChange={(e) => setMin(e.target.value)}
+    <div className="flex items-center gap-2">
+      <InputNumber
+        value={min}
+        onValueChange={(e) => setMin(e.value)}
+        placeholder="$0"
+        mode="currency"
+        currency="USD"
+        locale="en-US"
+        className="w-full"
+        inputClassName="w-full text-sm py-1.5 px-2 border-2 border-gray-300 rounded-lg focus:border-cyan-500 focus:outline-none transition-all"
+        useGrouping={false}
+        maxFractionDigits={2}
+      />
+      <InputNumber
+        value={max}
+        onValueChange={(e) => setMax(e.value)}
+        placeholder="$0"
+        mode="currency"
+        currency="USD"
+        locale="en-US"
+        className="w-full"
+        inputClassName="w-full text-sm py-1.5 px-2 border-2 border-gray-300 rounded-lg focus:border-cyan-500 focus:outline-none transition-all"
+        useGrouping={false}
+        maxFractionDigits={2}
+      />
+      <Button
+        icon="pi pi-check"
+        tooltip="Aplicar"
+        tooltipOptions={{ position: 'top' }}
+        size="small"
+        onClick={handleApply}
+        className="bg-cyan-600 hover:bg-cyan-700 border-none rounded-lg h-[38px] w-[38px] flex-shrink-0 transition-colors"
+      />
+      {(min !== null || max !== null) && (
+        <Button
+          icon="pi pi-times"
+          tooltip="Limpiar"
+          tooltipOptions={{ position: 'top' }}
+          size="small"
+          outlined
+          severity="secondary"
+          onClick={handleClear}
+          className="h-[38px] w-[38px] flex-shrink-0 rounded-lg transition-colors"
         />
-        <span className="text-gray-400">-</span>
-        <input
-          type="number"
-          placeholder="Max"
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-          value={max}
-          onChange={(e) => setMax(e.target.value)}
-        />
-        <button
-          onClick={handleApply}
-          className="px-4 py-2.5 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors duration-200 text-sm whitespace-nowrap"
-        >
-          Aplicar
-        </button>
-      </div>
-      {error && <p className="text-xs text-red-500 px-1">{error}</p>}
+      )}
     </div>
   );
 };
