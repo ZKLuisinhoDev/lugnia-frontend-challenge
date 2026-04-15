@@ -23,7 +23,7 @@ const App = () => {
   return (
     <ThemeProvider>
       <CartProvider>
-        <div className="app-container overflow-x-hidden min-h-screen bg-white dark:bg-slate-950 transition-colors duration-500">
+        <div className="app-container min-h-screen bg-white dark:bg-slate-950 transition-colors duration-500">
           {currentView === 'landing' ? (
             <LandingPage onEnterStore={navigateToShop} />
           ) : (

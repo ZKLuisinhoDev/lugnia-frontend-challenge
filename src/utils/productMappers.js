@@ -16,6 +16,7 @@ export const mapProductResponse = (rawProduct) => {
   return {
     ...rest,
     price: normalizedPrice,
+    categoryId: category?.id,
     categoryName: category?.title || 'General',
   };
 };

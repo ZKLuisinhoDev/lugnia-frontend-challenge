@@ -58,7 +58,7 @@ export const useProducts = (currentPage = 1, pageSize = 12) => {
         product.name.toLowerCase().includes(filters.search.toLowerCase()) ||
         product.description?.toLowerCase().includes(filters.search.toLowerCase());
 
-      const matchesCategory = !filters.category || product.category?.id === filters.category;
+      const matchesCategory = !filters.category || product.categoryId == filters.category;
       
       const matchesPrice = product.price >= filters.priceMin && product.price <= filters.priceMax;
 
